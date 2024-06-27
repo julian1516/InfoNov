@@ -1,0 +1,22 @@
+---
+# The node type - server or agent
+rke2_type: server
+
+# Deploy the control plane in HA mode
+rke2_ha_mode: false
+
+# Install and configure Keepalived on Server nodes
+# Can be disabled if you are using pre-configured Load Balancer
+rke2_ha_mode_keepalived: false
+
+# Install and configure kube-vip LB and VIP for cluster
+# rke2_ha_mode_keepalived needs to be false
+rke2_ha_mode_kubevip: false
+
+# Kubernetes API and RKE2 registration IP address. The default Address is the IPv4 of the Server/Master node.
+# In HA mode choose a static IP which will be set as VIP in keepalived.
+# Or if the keepalived is disabled, use IP address of your LB.
+rke2_api_ip: "192.168.1.78"
+
+# RKE2 version
+rke2_version: v1.27.9+rke2r1
