@@ -1,6 +1,6 @@
 # Ansible Playbook for RKE2, Prometheus, and Grafana Deployment
 
-This repository contains an Ansible playbook to automate the deployment of RKE2, Prometheus, and Grafana on a Kubernetes cluster.
+This repository contains an Ansible playbook to automate the deployment of RKE2, Prometheus, and Grafana on a Kubernetes cluster and manifest yaml use in kubernetes. 
 
 ## Requirements
 
@@ -60,11 +60,31 @@ This repository contains an Ansible playbook to automate the deployment of RKE2,
 
 3. Update the variables in the `group_vars` directory as needed.
 
-4. Run the playbook:
+4. install requirements 
 
-    ```sh
-    ansible-playbook -i inventory playbook.yml
-    ```
+```sh
+
+
+
+5. 
+Example Playbook
+----------------
+
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+
+```
+  ---
+---
+- hosts: prometheus
+  become: true
+  roles:
+    - prometheus.prometheus.prometheus
+```
+Example Command
+----------------
+```
+ansible-playbook playbooks/deploy_prometheus.yml -i inventories/hosts -u kube --ask-vault-pass
+```
 
 ## Directory Structure
 
@@ -82,3 +102,14 @@ ansible-rke2-prometheus-grafana/
 │   ├── prometheus/
 │   │   ├── my_prometheus.yml.j2
 └── README.md
+
+
+License
+-------
+
+BSD
+
+Author Information
+------------------
+
+Julian Doré / Léo Gauthier / Ludovic Hubert
