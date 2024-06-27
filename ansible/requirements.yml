@@ -1,0 +1,13 @@
+---
+roles:
+  - src: https://github.com/lablabs/ansible-role-rke2.git
+    scm: git
+    version: 1.28.0
+
+collections:
+  - name: prometheus.prometheus
+    source: https://galaxy.ansible.com
+    version: 0.16.3
+  - name: grafana.grafana
+    source: https://galaxy.ansible.com
+    version: 5.2.0
