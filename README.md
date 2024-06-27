@@ -62,18 +62,13 @@ This repository contains an Ansible playbook to automate the deployment of RKE2,
 
 4. install requirements 
 
-```sh
-
-
-
 5. 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-```
-  ---
+```sh
 ---
 - hosts: prometheus
   become: true
@@ -82,28 +77,36 @@ Including an example of how to use your role (for instance, with variables passe
 ```
 Example Command
 ----------------
-```
+```sh
 ansible-playbook playbooks/deploy_prometheus.yml -i inventories/hosts -u kube --ask-vault-pass
 ```
 
 ## Directory Structure
 
 ```sh
-ansible-rke2-prometheus-grafana/
-├── playbook.yml
-├── inventory
-├── group_vars/
-│   ├── all.yml
-├── roles/
-│   ├── grafana/
-│   ├── prometheus/
-│   ├── rke2/
-├── templates/
-│   ├── prometheus/
-│   │   ├── my_prometheus.yml.j2
+
+├── ansible
+│   ├── ansible.cfg
+│   ├── inventories
+│   │   ├── group_vars
+│   │   │   ├── k8s_cluster.yml
+│   │   │   └── supervision.yml
+│   │   └── hosts
+│   ├── playbooks
+│   │   ├── deploy_grafana.yml
+│   │   ├── deploy_prometheus.yml
+│   │   ├── deploy_rke2.yml
+│   │   └── templates
+│   │       └── prometheus
+│   │           └── my_prometheus.yml.j2
+│   ├── README.md
+│   └── requirements.yml
+├── Manifest
+│   └── kubernetes
+│       ├── component.yml
+│       └── supervision.yml
 └── README.md
-
-
+```
 License
 -------
 
