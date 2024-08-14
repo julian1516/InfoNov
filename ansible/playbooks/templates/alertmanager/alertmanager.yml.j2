@@ -1,0 +1,39 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: '{{ alertmanager_route.receiver }}'
+  group_by: ['{{ alertmanager_route.group_by | join("', '") }}']
+  group_wait: '{{ alertmanager_route.group_wait }}'
+  group_interval: '{{ alertmanager_route.group_interval }}'
+  repeat_interval: '{{ alertmanager_route.repeat_interval }}'
+
+  routes:
+    - match:
+        alertname: InstanceDown
+      receiver: '{{ alertmanager_route.receiver }}'
+
+    - match:
+        alertname: HighCPUUsage
+      receiver: '{{ alertmanager_route.receiver }}'
+
+    - match:
+        alertname: HighMemoryUsage
+      receiver: '{{ alertmanager_route.receiver }}'
+
+receivers:
+  - name: '{{ alertmanager_receivers.0.name }}'
+    email_configs:
+      - to: '{{ alertmanager_receivers.0.email_configs.0.to }}'
+        from: '{{ alertmanager_receivers.0.email_configs.0.from }}'
+        smarthost: '{{ alertmanager_receivers.0.email_configs.0.smarthost }}'
+        auth_username: '{{ alertmanager_receivers.0.email_configs.0.auth_username }}'
+        auth_password: '{{ alertmanager_receivers.0.email_configs.0.auth_password }}'
+        send_resolved: {{ alertmanager_receivers.0.email_configs.0.send_resolved }}
+
+inhibit_rules:
+  - source_match:
+      severity: critical
+    target_match:
+      severity: warning
+    equal: ['alertname', 'cluster', 'service']

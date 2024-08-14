@@ -21,7 +21,40 @@ prometheus_web_listen_address: 192.168.1.100:9090
 prometheus_version: 2.52.0
 prometheus_localhost: '192.168.1.100:9090'
 prometheus_kubernetes_node: '192.168.1.78:6443'
-prometheus_config_file: '/home/kube/PFE_YNOV/ansible/playbooks/templates/prometheus/my_prometheus.yml.j2'
+prometheus_config_file: '/home/kube/InfoNov/ansible/playbooks/templates/prometheus/my_prometheus.yml.j2'
+prometheus_agent_mode: false
+prometheus_alert_relabel_configs: []
+
+
+prometheus_alert_rules_files: ["prometheus/rules/*.rules"]
+prometheus_alertmanager_config:
+  - static_configs:
+      - targets: ['{{ alertmanager_ip }}:{{ alertmanager_port }}']
+alertmanager_ip: '192.168.1.100'
+alertmanager_port: '9093'
+
+##AlertManager
+alertmanager_version: 0.27.0
+alertmanager_config_file: '/home/kube/InfoNov/ansible/playbooks/templates/alertmanager/alertmanager.yml.j2'
+alertmanager_receivers:
+  - name: 'email'
+    email_configs:
+      - to: 'juju.du13220@gmail.com'
+        from: 'juju.du13220@gmail.com'
+        smarthost: 'smtp.gmail.com:587'
+        auth_username: 'juju.du13220@gmail.com'
+        auth_password: ''
+        require_tls: true
+        send_resolved: true
+
+alertmanager_route:
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 30s
+  group_interval: 1m
+  repeat_interval: 1m
+  receiver: email
+
+#KUBE
 #bearer_token: eyJhbGciOiJSUzI1NiIsImtpZCI6IlhDNXJRaDVvUkVBNGZRLVZpRXMwdk94WHgzdXRJVndLd1JaNl82SkpSUkEifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJzdXBlcnZpc2lvbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJzZXJ2aWNlLXN1cGVydmlzaW9uLXRva2VuIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6InNlcnZpY2Utc3VwZXJ2aXNpb24iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIzZWQzZjAwNy1iOWJkLTQyY2QtYmMyMi0zMmIyNGZiYzlhYjAiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6c3VwZXJ2aXNpb246c2VydmljZS1zdXBlcnZpc2lvbiJ9.VSNgWVFSTrWifusFUToKT--c8U4ZOU503uNKoQZ59HWidlR7AAen1Sis67zTMEAL4VOpLnsE9R5i-2a3gq1-fWovVXsQG7oLNl0qqtwGG7Xdca086fBg81F_cgLJKvftJQ7VUAt0NJhdJ119TqBHJCuJSXYWsDczPve4IFRckT9rH8QTCaWw3b1Y1Kngc2Yxu85fll8cOW1bZKMLbcmkOdO0yCXR6h5HeorZoxZ4Zh0oHFUtLEpKhUzWKjwSCDPnNeFqH3g0oUE5z5wqd_7xzYAi5Gl14eHT1BpxBRe6cmifEXZpICntTYO1iKDJ7-21XNwbGJYH11YLN6iS_Xc4FQ
 insecure_skip_verify: true
 kubernetes_ip: 192.168.1.78
