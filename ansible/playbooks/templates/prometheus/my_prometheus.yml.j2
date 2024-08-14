@@ -29,3 +29,12 @@ scrape_configs:
         regex: (.+)
         target_label: __metrics_path__
         replacement: {{kubernetes_api_path}}
+        
+# Configuration d'Alertmanager
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['{{ alertmanager_ip }}:{{ alertmanager_port }}']
+
+rule_files:
+  - "/etc/prometheus/alerts.yml"

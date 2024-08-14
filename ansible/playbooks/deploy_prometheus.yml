@@ -1,5 +1,46 @@
 ---
 - hosts: prometheus
   become: true
+  tags: prometheus
   roles:
     - prometheus.prometheus.prometheus
+
+
+# - hosts: prometheus
+#   become: true
+#   tags: alertmanager
+#   tasks: 
+#   - ansible.builtin.copy:
+#     src: /home/kube/InfoNov/ansible/playbooks/templates/alertmanager/alerts.yml.j2
+#     dest: /etc/prometheus/alerts.yml
+#     owner: prometheus
+#     group: prometheus
+#     mode: '0644'
+#     notify:
+#       - Reload Prometheus
+#   roles:
+#     - prometheus.prometheus.alertmanager
+
+- hosts: prometheus
+  become: true
+  tags: alertmanager
+  tasks:
+    - name: Copier le fichier d'alertes pour Prometheus
+      ansible.builtin.copy:
+        src: /home/kube/InfoNov/ansible/playbooks/templates/alertmanager/alerts.yml.j2
+        dest: /etc/prometheus/alerts.yml
+        owner: prometheus
+        group: prometheus
+        mode: '0644'
+      notify:
+        - Reload Prometheus
+
+  handlers:
+    - name: Reload Prometheus
+      ansible.builtin.systemd:
+        name: prometheus
+        state: restarted
+        enabled: true
+
+  roles:
+    - prometheus.prometheus.alertmanager

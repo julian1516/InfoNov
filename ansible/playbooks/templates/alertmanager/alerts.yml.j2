@@ -1,0 +1,29 @@
+groups:
+- name: example_alerts
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Instance {{ $labels.instance }} is down"
+      description: "The instance {{ $labels.instance }} has been down for more than 1 minutes."
+
+  - alert: HighCPUUsage
+    expr: rate(node_cpu_seconds_total{mode="idle"}[5m]) < 0.2
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High CPU usage on instance {{ $labels.instance }}"
+      description: "CPU usage on instance {{ $labels.instance }} is above 80% for more than 1 minutes."
+
+  - alert: HighMemoryUsage
+    expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.2
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High memory usage on instance {{ $labels.instance }}"
+      description: "Memory usage on instance {{ $labels.instance }} is above 80% for more than 1 minutes."
