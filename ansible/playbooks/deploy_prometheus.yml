@@ -6,21 +6,6 @@
     - prometheus.prometheus.prometheus
 
 
-# - hosts: prometheus
-#   become: true
-#   tags: alertmanager
-#   tasks: 
-#   - ansible.builtin.copy:
-#     src: /home/kube/InfoNov/ansible/playbooks/templates/alertmanager/alerts.yml.j2
-#     dest: /etc/prometheus/alerts.yml
-#     owner: prometheus
-#     group: prometheus
-#     mode: '0644'
-#     notify:
-#       - Reload Prometheus
-#   roles:
-#     - prometheus.prometheus.alertmanager
-
 - hosts: prometheus
   become: true
   tags: alertmanager
